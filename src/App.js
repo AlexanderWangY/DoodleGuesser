@@ -1,23 +1,42 @@
 import logo from './logo.svg';
 import './App.css';
+import { ReactSketchCanvas } from 'react-sketch-canvas';
+import useWindowsDimensions from './actions/useWindowsDimensions';
+import React, { createRef } from 'react';
 
 function App() {
+  const { height, width } = useWindowsDimensions();
+
+  const canvas = React.createRef();
+
+  const handleClear = () => {
+    canvas.current.clearCanvas()
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-container">
+      <div className="header">
+        <h1 className='title'>
+          Doodle Decoder
+        </h1>
+      </div>
+      <div className="content">
+        <div className='canvas-container'>
+          <ReactSketchCanvas
+            ref={canvas}
+            allowOnlyPointerType='all'
+            className='canvas'
+            height={height * 0.7}
+            width={height * 0.7}
+            strokeWidth={20}
+            strokeColor='black'
+          />
+        </div>
+        <div className="button-container">
+          <button className="button" onClick={handleClear}>Clear</button>
+          <button className="button">Submit</button>
+        </div>
+      </div>
     </div>
   );
 }
