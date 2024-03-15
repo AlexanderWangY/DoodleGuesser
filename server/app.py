@@ -5,15 +5,17 @@ from predict import infer
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route("/guess", methods=['POST'])
 def predict():
     data = request.json
-    img_base = data["img"]
+    img_base = data["img"].partition(",")[2]
 
-    result = infer(img_base)
+    prediction = infer(img_base)
 
     return jsonify({
-        'prediction': result
+        'prediction': prediction
     })
 
-app.run(host="0.0.0.0", port=8080)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
